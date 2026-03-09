@@ -31,3 +31,28 @@
         #f
         (substring s i end)))
 
+  (define (loop i acc)
+                    (cons hist-token acc))
+              'invalid)]
+         [(char-numeric? ch)
+          (define end (scan-number j))
+          (loop end (cons (substring s j end) acc))]
+         [else 'invalid])]))
+
+  (loop 0 '()))
+
+;; -----------------------------
+;; History helpers
+;; -----------------------------
+
+(define (history-ref history id)
+  ;; history is stored newest-first; ids are oldest-first
+  (cond
+    [(or (< id 1) (> id (length history)))
+     (error 'expr "Invalid history reference")]
+    [else
+     (list-ref (reverse history) (sub1 id))]))
+
+
+(define (parse-expr tokens history)
+
